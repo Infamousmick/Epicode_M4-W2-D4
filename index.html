@@ -16,30 +16,101 @@
     <title>Book Library</title>
   </head>
   <body>
-    <section id="books" class="container d-flex flex-column gap-4">
-      <div class="searchContainer d-flex justify-content-center mt-3">
-        <div class="inputBox_container">
-          <svg
-            class="search_icon"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 48 48"
-            alt="search icon"
-          >
-            <path
-              d="M46.599 46.599a4.498 4.498 0 0 1-6.363 0l-7.941-7.941C29.028 40.749 25.167 42 21 42 9.402 42 0 32.598 0 21S9.402 0 21 0s21 9.402 21 21c0 4.167-1.251 8.028-3.342 11.295l7.941 7.941a4.498 4.498 0 0 1 0 6.363zM21 6C12.717 6 6 12.714 6 21s6.717 15 15 15c8.286 0 15-6.714 15-15S29.286 6 21 6z"
-            ></path>
-          </svg>
-          <input
-            class="inputBox"
-            id="inputBox"
-            type="text"
-            placeholder="Search For Products"
-          />
+    <nav class="navbar navbar-expand-lg bg-body-tertiary sticky-top">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">Book Library</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="#">Home</a>
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link go-to-cart"
+                data-bs-toggle="modal"
+                data-bs-target="#booksModal"
+                href="#"
+                ><i class="fa-solid fa-cart-shopping"></i> Cart</a
+              >
+            </li>
+          </ul>
+          <div class="searchContainer d-flex justify-content-center mt-3">
+            <div class="inputBox_container">
+              <svg
+                class="search_icon"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 48 48"
+                alt="search icon"
+              >
+                <path
+                  d="M46.599 46.599a4.498 4.498 0 0 1-6.363 0l-7.941-7.941C29.028 40.749 25.167 42 21 42 9.402 42 0 32.598 0 21S9.402 0 21 0s21 9.402 21 21c0 4.167-1.251 8.028-3.342 11.295l7.941 7.941a4.498 4.498 0 0 1 0 6.363zM21 6C12.717 6 6 12.714 6 21s6.717 15 15 15c8.286 0 15-6.714 15-15S29.286 6 21 6z"
+                ></path>
+              </svg>
+              <input
+                class="inputBox"
+                id="inputBox"
+                type="text"
+                placeholder="Search For Products"
+              />
+            </div>
+          </div>
         </div>
       </div>
+    </nav>
+
+    <section id="books" class="container d-flex flex-column gap-4">
       <div
-        class="row row-cols-2 row-cols-md-4 row-cols-lg-6 booksContainer"
+        class="row row-cols-2 row-cols-md-4 row-cols-lg-6 g-2 booksContainer"
       ></div>
+    </section>
+
+    <section id="modalSection">
+      <!-- Modal -->
+      <div
+        class="modal fade"
+        id="booksModal"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
+        tabindex="-1"
+        aria-labelledby="booksModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="booksModalLabel">Modal title</h1>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">...</div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button>
+              <button type="button" class="btn btn-primary">Understood</button>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>

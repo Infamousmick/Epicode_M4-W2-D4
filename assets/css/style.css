@@ -15,6 +15,11 @@
     height: 1em;
     padding: 0 0.5em 0 0.8em;
     fill: #abb2bf;
+    cursor: pointer;
+}
+
+.search_icon:hover {
+    fill: white;
 }
 
 .inputBox {
@@ -29,4 +34,25 @@
 
 ::placeholder {
     color: #abb2bf;
+}
+
+
+/* Section books */
+
+section#books .card {
+    background-color: rgba(158, 79, 0, 0.46);
+    border-width: 2px;
+}
+
+section#books .card.checked {
+    background-color: rgb(178, 202, 175);
+    border-color: rgb(113, 255, 146)
+}
+
+section#books .card img {
+    box-shadow: 0 5px 4px rgba(0, 0, 0, 0.632)
+}
+
+section#books h5 {
+    font-size: 1.1rem
 }
