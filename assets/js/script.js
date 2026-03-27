@@ -37,3 +37,45 @@
 // · Conta gli elementi nel carrello e mostra il risultato nella sezione carrello
 
 // . Crea un pulsante per svuotare il carrello
+
+const getBooks = async (url) => {
+  try {
+    const response = await fetch(url);
+    return await response.json();
+  } catch (err) {
+    console.warn(err);
+  }
+};
+
+const loadBooks = async () => {
+  let url = "https://striveschool-api.herokuapp.com/books";
+  const data = await getBooks(url);
+  const books = formatBooksData(data);
+  createBookCards(books);
+};
+
+loadBooks();
+
+const formatBooksData = (arrBooks) => {
+  return arrBooks
+    .map((book) => {
+      const { img, price, title } = book;
+      return `
+        <div class="col">
+          <div class="card">
+            <img src="${img}" class="card-img-top" alt="Book Image"/>
+        <div class="card-body">
+          <h5 class="card-title">${title}</h5>
+          <p class="card-text">${price}</p>
+          <a href="#" class="btn btn-primary"><i class="fa-solid fa-cart-shopping"></i>Add to cart</a>
+          <a href="#" class="btn btn-danger"><i class="fa-regular fa-circle-xmark"></i>Remove</a></div>
+        </div>
+      </div>`;
+    })
+    .join("\n");
+};
+
+const createBookCards = (books) => {
+  const container = document.querySelector("section#books .booksContainer");
+  container.innerHTML = books;
+};
