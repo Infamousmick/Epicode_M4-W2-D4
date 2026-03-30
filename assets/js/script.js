@@ -90,10 +90,10 @@ const formatBooksData = (arrBooks) => {
             <img src="${img}" class="object-fit-cover rounded-2" style="height: 200px" alt="Book Image"/>
              <div class="card-body d-flex flex-column">
               <h5 class="card-title">${title}</h5>
-              <p class="card-text">${price}</p>
+              <p class="card-text price">${price}€</p>
                 <div class="d-flex flex-column gap-2 mt-auto">          
-                  <a href="#" class="btn btn-primary add-to-cart" data-asin="${asin}"><i class="fa-solid fa-cart-shopping"></i>Add to cart</a>
-                  <a href="#" class="btn btn-danger hide"><i class="fa-regular fa-circle-xmark"></i>Hide</a>
+                  <a href="#" class="btn btn-primary add-to-cart" onclick="addToCart(this)" data-asin="${asin}"><i class="fa-solid fa-cart-shopping"></i><span class="btn-text">Add to cart</span></a>
+                  <a href="#" class="btn btn-danger hide" onclick="hideBook(this)"><i class="fa-regular fa-circle-xmark"></i>Hide</a>
                 </div>
               </div>
             </div>
@@ -105,57 +105,100 @@ const formatBooksData = (arrBooks) => {
 const createBookCards = (books) => {
   const container = document.querySelector("section#books .booksContainer");
   container.innerHTML = books;
-  assignBtnCarts();
-  assignBtnRemove();
 };
 
-const assignBtnCarts = () => {
-  addToCartBtn = document.querySelectorAll("section#books .add-to-cart");
-  addToCartBtn.forEach((btn) => {
-    btn.addEventListener("click", (e) => {
-      e.preventDefault();
+const addToCart = (btn) => {
+  const clickedBtn = btn.closest(".add-to-cart");
+  clickedBtn.classList.add("btn-success");
+  clickedBtn.classList.remove("btn-primary");
 
-      const clickedBtn = e.target.closest(".add-to-cart");
-      clickedBtn.classList.add("btn-success");
-      clickedBtn.classList.remove("btn-primary");
+  const bookAsin = clickedBtn.dataset.asin;
+  cart.push(allBooks.find((book) => book.asin.includes(bookAsin)));
 
-      const bookAsin = clickedBtn.dataset.asin;
-      cart.push(allBooks.find((book) => book.asin.includes(bookAsin)));
+  const card = btn.closest(".card");
+  card.classList.add("class", "checked");
 
-      const card = e.target.closest(".card");
-      card.classList.add("class", "checked");
+  clickedBtn.querySelector("i").classList.remove("fa-cart-shopping");
+  clickedBtn.querySelector("i").classList.add("fa-check");
 
-      clickedBtn.querySelector("i").classList.remove("fa-cart-shopping");
-      clickedBtn.querySelector("i").classList.add("fa-check");
-      injectBooksModal();
-    });
-  });
+  clickedBtn.lastChild.innerHTML = "Added";
+
+  injectBooksModal();
 };
 
-const assignBtnRemove = () => {
-  btnRemove = document.querySelectorAll("section#books .hide");
-  btnRemove.forEach((btn) => {
-    btn.addEventListener("click", (e) => {
-      e.preventDefault();
-      const card = e.target.closest(".card");
-      card.remove();
-    });
-  });
+const hideBook = (btn) => {
+  btn.preventDefault;
+  const col = btn.closest(".col");
+  col.setAttribute("class", "remove");
+  col.style.transition = "opacity 0.5s ease, transform 0.5s ease";
+  col.style.opacity = "0";
+  col.style.transform = "scale(0.9)";
+  setTimeout(() => col.remove(), 300);
 };
 
 const injectBooksModal = () => {
   const modal = document.querySelector("#booksModal .modal-body");
-  let li = "";
-  cart.forEach((item) => {
-    const { asin, title, price } = item;
-    li += `
+  const clearBtn = document.querySelector(".clearCart");
+
+  if (cart.length === 0) {
+    modal.innerHTML = "Carrello vuoto";
+    printTotalCart("");
+    clearBtn.classList.add("d-none");
+  } else {
+    let li = "";
+    let totalPrice = 0;
+
+    const newItem = cart.reduce((acc, item, index) => {
+      const { asin, title, price } = item;
+      totalPrice += price;
+      acc += `
     <li class="list-group-item">
-      <h5>${title}
-      </h5>
-      <p>${price}</p>
-      <a class="btn btn-danger remove" data-asin=${asin}><i class="fa-regular fa-circle-xmark"></i>Remove</a>
+      <div class="d-flex justify-content-between alig-items-center">
+        <h5 class="mb-0">${title}</h5>
+        <p class="mb-0">${price}€</p>
+      </div>
+      <a class="btn btn-danger remove" onclick="removeItemCart('${asin}', ${index})" data-asin=${asin}><i class="fa-regular fa-circle-xmark"></i>Remove</a>
     </li>
 `;
-  });
-  modal.innerHTML = `<ul class="list-group">${li}</ul>`;
+      return acc;
+    }, "");
+    modal.innerHTML = `<ul class="list-group">${newItem}</ul>`;
+    clearBtn.classList.remove("d-none");
+    printTotalCart(`${totalPrice.toFixed(2)}€ per ${cart.length} libri`);
+  }
+};
+
+const printTotalCart = (text) => {
+  document.querySelector(".resultCart").innerText = text;
+};
+
+const removeItemCart = (asin, index) => {
+  const cardItem = document
+    .querySelector(
+      `section#books .booksContainer .add-to-cart[data-asin='${asin}']`,
+    )
+    .closest(".card");
+  cardItem.classList.remove("checked");
+
+  const btnItem = document
+    .querySelector(
+      `section#books .booksContainer .add-to-cart[data-asin='${asin}']`,
+    )
+    .closest(".add-to-cart");
+
+  btnItem.classList.remove("btn-success");
+  btnItem.classList.add("btn-primary");
+
+  btnItem.children[0].classList.remove("fa-check");
+  btnItem.children[0].classList.add("fa-cart-shopping");
+
+  btnItem.lastChild.innerHTML = "Add to cart";
+
+  cart.splice(index, 1);
+  injectBooksModal();
+};
+
+const clearCart = () => {
+  cart = [];
+  injectBooksModal();
 };

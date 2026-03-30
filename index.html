@@ -97,16 +97,25 @@
                 aria-label="Close"
               ></button>
             </div>
-            <div class="modal-body">...</div>
-            <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-secondary"
-                data-bs-dismiss="modal"
-              >
-                Close
-              </button>
-              <button type="button" class="btn btn-primary">Understood</button>
+            <div class="modal-body">Carrello vuoto</div>
+            <div class="modal-footer d-flex justify-content-between">
+              <p class="resultCart ms-3"></p>
+              <div class="btnContainer">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                >
+                  Esci
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-primary clearCart d-none"
+                  onclick="clearCart()"
+                >
+                  Svuota carrello
+                </button>
+              </div>
             </div>
           </div>
         </div>

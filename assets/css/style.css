@@ -40,6 +40,7 @@
 /* Section books */
 
 section#books .card {
+    position: relative;
     background-color: rgba(158, 79, 0, 0.46);
     border-width: 2px;
 }
@@ -53,6 +54,25 @@ section#books .card img {
     box-shadow: 0 5px 4px rgba(0, 0, 0, 0.632)
 }
 
+
+
+section#books .card .price {
+    position: absolute;
+    top: 5%;
+    right: 8%;
+    background-color: rgba(0, 140, 255, 0.611);
+    padding: 2px 4px;
+    color: white;
+    font-weight: 500;
+    border-radius: 4px
+}
+
 section#books h5 {
-    font-size: 1.1rem
+    font-size: 1rem
+}
+
+/* Modal */
+.resultCart {
+    font-weight: 600;
+    color: rgb(39, 125, 253)
 }
