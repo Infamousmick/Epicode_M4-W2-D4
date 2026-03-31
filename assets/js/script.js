@@ -38,15 +38,43 @@
 
 // . Crea un pulsante per svuotare il carrello
 
+// ########## M4 W3 D1 ########## //
+// · Aggiungi un pulsante "salta" su tutte le card. Al click, dovrebbe far scomparire la card.
+
+// · Crea una pagina "dettagli". Cliccando su un terzo pulsante sulla card, l'utente deve
+// essere portato ad una pagina html separata dove visualizzerai i dettagli del libro.
+// Per farlo, usa gli URLSearchParams in questo modo:
+// Il link alla pagina dettagli dovrebbe avere una struttura simile:
+// /dettagli.html?id=1940026091
+// Dove 1940026091 è l'asin del libro su cui l'utente ha cliccato
+// La parte evidenziata si chiama "search param".
+// Nella pagina dettagli, puoi recuperare l'asin usando
+// const params = new URLSearchParams (location.search)
+// const id = params.get ("id")
+// Esegui quindi la fetch usando l'id:
+// https://striveschool-api.herokuapp.com/books/INSERISCI ASIN QUI
+
 let allBooks = [];
 let cart = [];
 
 const getBooks = async (url) => {
+  showLoading(true);
+
   try {
     const response = await fetch(url);
     return await response.json();
   } catch (err) {
     console.warn(err);
+  } finally {
+    showLoading(false);
+  }
+};
+
+const showLoading = (state) => {
+  if (state) {
+    document.querySelector(".loading-container").classList.remove("d-none");
+  } else {
+    document.querySelector(".loading-container").classList.add("d-none");
   }
 };
 
@@ -93,7 +121,8 @@ const formatBooksData = (arrBooks) => {
               <p class="card-text price">${price}€</p>
                 <div class="d-flex flex-column gap-2 mt-auto">          
                   <a href="#" class="btn btn-primary add-to-cart" onclick="addToCart(this)" data-asin="${asin}"><i class="fa-solid fa-cart-shopping"></i><span class="btn-text">Add to cart</span></a>
-                  <a href="#" class="btn btn-danger hide" onclick="hideBook(this)"><i class="fa-regular fa-circle-xmark"></i>Hide</a>
+                  <a href="#" class="btn btn-danger hide" onclick="hideBook(this)"><i class="fa-regular fa-circle-xmark"></i><span class="btn-text">Hide</span></a>
+                  <a href="/details.html?id=${asin}" class="btn btn-light showInfo" onclick="hideBook(this)"><i class="fa-solid fa-circle-info"></i><span class="btn-text">Show info</span></a>
                 </div>
               </div>
             </div>
